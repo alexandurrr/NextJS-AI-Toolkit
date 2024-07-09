@@ -1,5 +1,5 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-This NextJS project uses Claude, OpenAI and Gemini
+This NextJS project uses Claude 3.5 Sonnet, OpenAI and Gemini
 
 ## Getting Started
 
