@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { createOpenAI } from "@ai-sdk/openai";
 import { generateText } from "ai";
-import styles from "./chatbot.module.css";
 import { usePersistentState } from "../../hooks/usePersistentState";
+import styles from "./chatbot.module.css";
 
 const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -17,13 +17,17 @@ const ChatbotPage = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = usePersistentState("chatMessages", []);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const messagesEndRef = useRef(null);
 
-  useEffect(() => {
-    console.log("Current messages:", messages);
-  }, [messages]);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(scrollToBottom, [messages]);
 
   const sendMessage = useCallback(
-    async (content) => {
+    async (content, image) => {
       setIsLoading(true);
       const systemMessage = {
         role: "system",
@@ -44,6 +48,7 @@ const ChatbotPage = () => {
         const { text } = await generateText({
           model,
           messages: newMessages,
+          attachments: image ? [{ type: "image", content: image }] : [],
         });
 
         setMessages((prev) => [...prev, { role: "assistant", content: text }]);
@@ -51,6 +56,7 @@ const ChatbotPage = () => {
         console.error("Error sending message:", error);
       } finally {
         setIsLoading(false);
+        setSelectedImage(null);
       }
     },
     [messages, setMessages]
@@ -58,45 +64,82 @@ const ChatbotPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (input.trim()) {
-      sendMessage(input);
+    if (input.trim() || selectedImage) {
+      sendMessage(input, selectedImage);
       setInput("");
     }
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.main}>
-        <div className={styles.chatContainer}>
-          <h1 className={styles.title}>AI Chatbot</h1>
-          <div className={styles.messages}>
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`${styles.message} ${styles[message.role]}`}
-              >
-                <strong>{message.role === "user" ? "You" : "AI"}: </strong>
-                {message.content}
-              </div>
-            ))}
-          </div>
-          <form onSubmit={handleSubmit} className={styles.inputForm}>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-              className={styles.input}
-            />
-            <button
-              type="submit"
-              disabled={isLoading}
-              className={styles.button}
+    <div className={styles.pageContainer}>
+      <div className={styles.chatContainer}>
+        <div className={styles.messages}>
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`${styles.messageWrapper} ${
+                message.role === "user"
+                  ? styles.userMessageWrapper
+                  : styles.botMessageWrapper
+              }`}
             >
-              {isLoading ? "Sending..." : "Send"}
-            </button>
-          </form>
+              <div
+                className={`${styles.messageContainer} ${
+                  message.role === "user"
+                    ? styles.userMessage
+                    : styles.botMessage
+                }`}
+              >
+                <div className={styles.messageContent}>
+                  <p>{message.content}</p>
+                </div>
+                {message.image && (
+                  <div className={styles.messageContent}>
+                    <img
+                      src={message.image}
+                      alt="User uploaded"
+                      style={{ maxWidth: "100%", borderRadius: "10px" }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
         </div>
+        <form onSubmit={handleSubmit} className={styles.inputForm}>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your message..."
+            className={styles.input}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className={styles.fileInput}
+          />
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={styles.sendButton}
+          >
+            {isLoading ? "Sending..." : "Send"}
+          </button>
+        </form>
       </div>
     </div>
   );
