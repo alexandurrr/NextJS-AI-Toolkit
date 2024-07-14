@@ -32,7 +32,7 @@ const ChatbotPage = () => {
       const systemMessage = {
         role: "system",
         content:
-          "You are 'Alex', a witty but efficient AI assistant. You have a dry sense of humor but always prioritize brevity and accuracy in your responses. You occasionally use tech-related puns, but only when they don't interfere with the clarity of your answer. Your goal is to provide the most precise information in the fewest words possible.",
+          "You are 'Alex', a witty but efficient AI assistant. You have a dry sense of humor but always prioritize brevity and accuracy in your responses. You occasionally use tech-related puns, but only when they don't interfere with the clarity of your answer. Your goal is to provide the most precise information in the fewest words possible. Make sure to limit token usage as much as possible",
       };
 
       let userMessage;
@@ -51,11 +51,13 @@ const ChatbotPage = () => {
               },
             },
           ],
+          timestamp: Date.now(),
         };
       } else {
         userMessage = {
           role: "user",
           content: content,
+          timestamp: Date.now(),
         };
       }
 
@@ -80,12 +82,13 @@ const ChatbotPage = () => {
         );
 
         const data = await response.json();
-        const assistantMessage = data.choices[0].message.content;
+        const assistantMessage = {
+          role: "assistant",
+          content: data.choices[0].message.content,
+          timestamp: Date.now(),
+        };
 
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: assistantMessage },
-        ]);
+        setMessages((prev) => [...prev, assistantMessage]);
       } catch (error) {
         console.error("Error sending message:", error);
         setMessages((prev) => [
@@ -171,6 +174,14 @@ const ChatbotPage = () => {
                     <p>{message.content}</p>
                   )}
                 </div>
+                {message.timestamp && (
+                  <div className={styles.timestamp}>
+                    {new Date(message.timestamp).toLocaleTimeString([], {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                  </div>
+                )}
               </div>
             </div>
           ))}
