@@ -156,16 +156,13 @@ const ChatbotPage = () => {
                         return <p key={i}>{item.text}</p>;
                       } else if (item.type === "image_url") {
                         return (
-                          <img
-                            key={i}
-                            src={item.image_url.url}
-                            alt="User uploaded"
-                            style={{
-                              maxWidth: "100%",
-                              borderRadius: "10px",
-                              marginBottom: "10px",
-                            }}
-                          />
+                          <div key={i} className={styles.imageContainer}>
+                            <img
+                              src={item.image_url.url}
+                              alt="User uploaded"
+                              className={styles.messageImage}
+                            />
+                          </div>
                         );
                       }
                       return null;

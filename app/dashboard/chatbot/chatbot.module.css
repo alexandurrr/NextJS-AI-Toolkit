@@ -223,3 +223,17 @@
 .botMessage .timestamp {
   color: rgba(255, 255, 255, 0.4);
 }
+
+.imageContainer {
+  max-width: 100px; 
+  max-height: 1000px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.messageImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
