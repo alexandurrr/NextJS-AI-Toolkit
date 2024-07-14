@@ -23,6 +23,12 @@ const ChatbotPage = () => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  const getPlaceholderText = () => {
+    if (isLoading) {
+      return "Alex is typing...";
+    }
+    return "Type your message...";
+  };
 
   useEffect(scrollToBottom, [messages]);
 
@@ -111,6 +117,7 @@ const ChatbotPage = () => {
     if (input.trim() || selectedImage) {
       sendMessage(input, selectedImage);
       setInput("");
+      setSelectedImage(null);
     }
   };
 
@@ -205,14 +212,23 @@ const ChatbotPage = () => {
                 accept="image/*"
                 onChange={handleImageChange}
                 className={styles.fileInput}
+                disabled={isLoading}
               />
             </label>
+            {isLoading && (
+              <div className={styles.typingIndicator}>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            )}
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
+              placeholder={getPlaceholderText()}
               className={styles.input}
+              disabled={isLoading}
             />
             <button
               type="submit"
