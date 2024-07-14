@@ -34,38 +34,67 @@ const ChatbotPage = () => {
         content:
           "You are 'Alex', a witty but efficient AI assistant. You have a dry sense of humor but always prioritize brevity and accuracy in your responses. You occasionally use tech-related puns, but only when they don't interfere with the clarity of your answer. Your goal is to provide the most precise information in the fewest words possible.",
       };
-      const userMessage = { role: "user", content, image };
+
+      let userMessage;
+      if (image) {
+        userMessage = {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: content,
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: `data:image/jpeg;base64,${image}`,
+              },
+            },
+          ],
+        };
+      } else {
+        userMessage = {
+          role: "user",
+          content: content,
+        };
+      }
+
       const newMessages = [systemMessage, ...messages, userMessage];
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       try {
-        const { text } = await generateText({
-          model,
-          messages: newMessages,
-          attachments: image ? [{ type: "image", content: image }] : [],
-        });
+        const response = await fetch(
+          "https://api.openai.com/v1/chat/completions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: "gpt-4o",
+              messages: newMessages,
+              max_tokens: 300,
+            }),
+          }
+        );
 
-        setMessages((prev) => [...prev, { role: "assistant", content: text }]);
+        const data = await response.json();
+        const assistantMessage = data.choices[0].message.content;
+
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: assistantMessage },
+        ]);
       } catch (error) {
         console.error("Error sending message:", error);
-        if (error.message.includes("image")) {
-          setMessages((prev) => [
-            ...prev,
-            {
-              role: "assistant",
-              content:
-                "Sorry, there was an error processing the image. Please try again.",
-            },
-          ]);
-        } else {
-          setMessages((prev) => [
-            ...prev,
-            {
-              role: "assistant",
-              content: "An error occurred. Please try again later.",
-            },
-          ]);
-        }
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: "An error occurred. Please try again later.",
+          },
+        ]);
       } finally {
         setIsLoading(false);
         setSelectedImage(null);
@@ -86,19 +115,17 @@ const ChatbotPage = () => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        // 5MB limit
         alert("Image size should be less than 5MB");
         return;
       }
       const reader = new FileReader();
       reader.onloadend = () => {
-        console.log("File read result:", reader.result); // Debugging log
-        setSelectedImage(reader.result);
+        const base64String = reader.result.split(",")[1];
+        setSelectedImage(base64String);
       };
       reader.readAsDataURL(file);
     }
   };
-
   return (
     <div className={styles.pageContainer}>
       <div className={styles.chatContainer}>
@@ -120,17 +147,28 @@ const ChatbotPage = () => {
                 }`}
               >
                 <div className={styles.messageContent}>
-                  <p>{message.content}</p>
-                  {message.role === "user" && message.image && (
-                    <img
-                      src={message.image}
-                      alt="User uploaded"
-                      style={{
-                        maxWidth: "100%",
-                        borderRadius: "10px",
-                        marginTop: "10px",
-                      }}
-                    />
+                  {Array.isArray(message.content) ? (
+                    message.content.map((item, i) => {
+                      if (item.type === "text") {
+                        return <p key={i}>{item.text}</p>;
+                      } else if (item.type === "image_url") {
+                        return (
+                          <img
+                            key={i}
+                            src={item.image_url.url}
+                            alt="User uploaded"
+                            style={{
+                              maxWidth: "100%",
+                              borderRadius: "10px",
+                              marginBottom: "10px",
+                            }}
+                          />
+                        );
+                      }
+                      return null;
+                    })
+                  ) : (
+                    <p>{message.content}</p>
                   )}
                 </div>
               </div>
