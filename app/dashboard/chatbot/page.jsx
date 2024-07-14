@@ -11,7 +11,7 @@ const openai = createOpenAI({
   compatibility: "strict",
 });
 
-const model = openai("gpt-4-turbo");
+const model = openai("gpt-4o");
 
 const ChatbotPage = () => {
   const [input, setInput] = useState("");
@@ -34,15 +34,9 @@ const ChatbotPage = () => {
         content:
           "You are 'Alex', a witty but efficient AI assistant. You have a dry sense of humor but always prioritize brevity and accuracy in your responses. You occasionally use tech-related puns, but only when they don't interfere with the clarity of your answer. Your goal is to provide the most precise information in the fewest words possible.",
       };
-      const newMessages = [
-        systemMessage,
-        ...messages,
-        { role: "user", content },
-      ];
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { role: "user", content },
-      ]);
+      const userMessage = { role: "user", content, image };
+      const newMessages = [systemMessage, ...messages, userMessage];
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       try {
         const { text } = await generateText({
@@ -54,6 +48,24 @@ const ChatbotPage = () => {
         setMessages((prev) => [...prev, { role: "assistant", content: text }]);
       } catch (error) {
         console.error("Error sending message:", error);
+        if (error.message.includes("image")) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "assistant",
+              content:
+                "Sorry, there was an error processing the image. Please try again.",
+            },
+          ]);
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "assistant",
+              content: "An error occurred. Please try again later.",
+            },
+          ]);
+        }
       } finally {
         setIsLoading(false);
         setSelectedImage(null);
@@ -73,8 +85,14 @@ const ChatbotPage = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB limit
+        alert("Image size should be less than 5MB");
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
+        console.log("File read result:", reader.result); // Debugging log
         setSelectedImage(reader.result);
       };
       reader.readAsDataURL(file);
@@ -103,35 +121,42 @@ const ChatbotPage = () => {
               >
                 <div className={styles.messageContent}>
                   <p>{message.content}</p>
-                </div>
-                {message.image && (
-                  <div className={styles.messageContent}>
+                  {message.role === "user" && message.image && (
                     <img
                       src={message.image}
                       alt="User uploaded"
-                      style={{ maxWidth: "100%", borderRadius: "10px" }}
+                      style={{
+                        maxWidth: "100%",
+                        borderRadius: "10px",
+                        marginTop: "10px",
+                      }}
                     />
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           ))}
           <div ref={messagesEndRef} />
         </div>
         <form onSubmit={handleSubmit} className={styles.inputForm}>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-            className={styles.input}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className={styles.fileInput}
-          />
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className={styles.input}
+            />
+            <label className={styles.fileInputLabel}>
+              {selectedImage ? "Image selected" : "Upload Image"}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className={styles.fileInput}
+              />
+            </label>
+          </div>
           <button
             type="submit"
             disabled={isLoading}

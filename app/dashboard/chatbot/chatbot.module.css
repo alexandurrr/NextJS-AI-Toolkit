@@ -2,10 +2,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 60px); /* Optionally, you can adjust this height based on your navbar's height */
+  min-height: calc(80vh - 60px); /* Optionally, you can adjust this height based on your navbar's height */
   background-color: var(--bgSoft);
   padding: 20px;
-  margin-top: 60px; /* Adjust based on the height of your navbar */
+  margin-top: 20px; /* Adjust based on the height of your navbar */
 }
 
 .chatContainer {
