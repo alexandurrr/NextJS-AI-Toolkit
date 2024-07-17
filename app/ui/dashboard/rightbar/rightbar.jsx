@@ -43,7 +43,7 @@ const Rightbar = () => {
         </div>
         <div className={styles.text}>
           <span className={styles.notification}>🔥 Available Now</span>
-          <h3 className={styles.title}>NorLLM</h3>
+          <h3 className={styles.title}>Gemini</h3>
           <p className={styles.desc}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </p>

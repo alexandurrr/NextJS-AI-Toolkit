@@ -56,7 +56,7 @@ const menuItems = [
     ],
   },
   {
-    title: "NorLLM",
+    title: "Gemini",
     list: [
       {
         title: "Soon..",

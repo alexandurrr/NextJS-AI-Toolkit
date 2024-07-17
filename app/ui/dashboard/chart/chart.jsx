@@ -15,43 +15,43 @@ const data = [
     name: "Sun",
     OpenAI: 5,
     Claude: 3,
-    NorLLM: 2,
+    Gemini: 2,
   },
   {
     name: "Mon",
     OpenAI: 7,
     Claude: 6,
-    NorLLM: 4,
+    Gemini: 4,
   },
   {
     name: "Tue",
     OpenAI: 3,
     Claude: 8,
-    NorLLM: 5,
+    Gemini: 5,
   },
   {
     name: "Wed",
     OpenAI: 9,
     Claude: 4,
-    NorLLM: 7,
+    Gemini: 7,
   },
   {
     name: "Thu",
     OpenAI: 6,
     Claude: 7,
-    NorLLM: 3,
+    Gemini: 3,
   },
   {
     name: "Fri",
     OpenAI: 8,
     Claude: 5,
-    NorLLM: 6,
+    Gemini: 6,
   },
   {
     name: "Sat",
     OpenAI: 4,
     Claude: 9,
-    NorLLM: 8,
+    Gemini: 8,
   },
 ];
 
@@ -89,7 +89,7 @@ const Chart = () => {
           />
           <Line
             type="monotone"
-            dataKey="NorLLM"
+            dataKey="Gemini"
             stroke="#ffc658"
             strokeDasharray="3 3"
           />
