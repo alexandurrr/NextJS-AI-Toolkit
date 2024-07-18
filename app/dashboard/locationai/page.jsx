@@ -1,32 +1,21 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import dynamic from "next/dynamic";
+import { LocationProvider, useLocation } from "../../context/LocationContext";
+import styles from "./locationAI.module.css";
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconUrl: markerIcon.src,
-  iconRetinaUrl: markerIcon2x.src,
-  shadowUrl: markerShadow.src,
-});
-export default function LocationAI() {
-  const defaultLocation = {
-    name: "Big Ben",
-    latitude: 51.5007,
-    longitude: -0.1246,
-  };
+const Map = dynamic(() => import("./MapComponent"), { ssr: false });
 
+function LocationSearch() {
   const [query, setQuery] = useState("");
-  const [location, setLocation] = useState(defaultLocation);
-  const [mapKey, setMapKey] = useState(0);
+  const { location, setLocation } = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [displayLat, setDisplayLat] = useState(location?.latitude || 0);
+  const [displayLon, setDisplayLon] = useState(location?.longitude || 0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await fetch("/api/location", {
         method: "POST",
@@ -34,50 +23,98 @@ export default function LocationAI() {
         body: JSON.stringify({ query }),
       });
       const data = await response.json();
-      setLocation(data);
-      setMapKey((prevKey) => prevKey + 1); // Force map re-render
+      setLocation({
+        name: data.name,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        imageUrl: data.imageUrl, // Add this line
+      });
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
+  useEffect(() => {
+    if (location) {
+      const steps = 50;
+      const latDiff = (location.latitude - displayLat) / steps;
+      const lonDiff = (location.longitude - displayLon) / steps;
+
+      let step = 0;
+      const interval = setInterval(() => {
+        if (step < steps) {
+          setDisplayLat((prev) => prev + latDiff);
+          setDisplayLon((prev) => prev + lonDiff);
+          step++;
+        } else {
+          setDisplayLat(location.latitude);
+          setDisplayLon(location.longitude);
+          clearInterval(interval);
+        }
+      }, 20);
+
+      return () => clearInterval(interval);
+    }
+  }, [location]);
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Location AI</h1>
-      <form onSubmit={handleSubmit} className="mb-4">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Enter a location query"
-          className="border p-2 mr-2"
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Search
-        </button>
-      </form>
+    <div className={styles.pageContainer}>
+      <div className={styles.searchContainer}>
+        <form onSubmit={handleSubmit} className={styles.searchForm}>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={isLoading ? "Searching..." : "Enter a location query"}
+            className={styles.searchInput}
+            disabled={isLoading}
+          />
+          <button
+            type="submit"
+            className={styles.searchButton}
+            disabled={isLoading}
+          >
+            {isLoading ? "..." : "Search"}
+          </button>
+        </form>
+      </div>
       {location && (
-        <div>
-          <h2 className="text-xl font-semibold mb-2">{location.name}</h2>
-          <p>Latitude: {location.latitude}</p>
-          <p>Longitude: {location.longitude}</p>
+        <div className={styles.resultContainer}>
+          <div className={styles.locationInfo}>
+            <h2 className={styles.locationName}>{location.name}</h2>
+            <p className={styles.coordinates}>
+              Latitude:{" "}
+              <span className={styles.coordinateValue}>
+                {displayLat.toFixed(4)}
+              </span>
+            </p>
+            <p className={styles.coordinates}>
+              Longitude:{" "}
+              <span className={styles.coordinateValue}>
+                {displayLon.toFixed(4)}
+              </span>
+            </p>
+          </div>
+          <div className={styles.mapContainer}>
+            <Map />
+            {isLoading && (
+              <div className={styles.loadingOverlay}>
+                <div className={styles.loadingSpinner}></div>
+                <span className={styles.thinkingText}>Alex is thinking...</span>
+              </div>
+            )}
+          </div>
         </div>
       )}
-      <div style={{ height: "400px", width: "100%" }} key={mapKey}>
-        <MapContainer
-          center={[location.latitude, location.longitude]}
-          zoom={13}
-          style={{ height: "100%", width: "100%" }}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <Marker position={[location.latitude, location.longitude]}>
-            <Popup>{location.name}</Popup>
-          </Marker>
-        </MapContainer>
-      </div>
     </div>
+  );
+}
+
+export default function LocationAI() {
+  return (
+    <LocationProvider>
+      <LocationSearch />
+    </LocationProvider>
   );
 }
