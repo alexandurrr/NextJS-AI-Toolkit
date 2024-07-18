@@ -1,6 +1,6 @@
 import OpenaiCard from "../ui/dashboard/card/openaicard";
 import ClaudeCard from "../ui/dashboard/card/claudecard";
-import Norllmcard from "../ui/dashboard/card/norllmcard";
+import GeminiCard from "../ui/dashboard/card/geminicard";
 import styles from "../ui/dashboard/dashboard.module.css";
 import Transactions from "../ui/dashboard/transactions/transactions";
 import Chart from "../ui/dashboard/chart/chart";
@@ -13,7 +13,7 @@ const Dashboard = () => {
         <div className={styles.cards}>
           <OpenaiCard />
           <ClaudeCard />
-          <Norllmcard />
+          <GeminiCard />
         </div>
         <Transactions />
         <Chart />
