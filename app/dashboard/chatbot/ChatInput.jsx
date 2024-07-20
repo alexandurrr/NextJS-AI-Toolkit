@@ -80,7 +80,7 @@ export default function ChatInput({ selectedImage, setSelectedImage }) {
             onClick={() => setSelectedImage(null)}
             className={styles.removeImage}
           >
-            ×
+            X
           </button>
         </div>
       )}
