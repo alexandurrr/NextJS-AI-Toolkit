@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Features
 
-- **For examples, see the screenshots section down below :)
+- **For examples, see the screenshots section down below :)**
 - **Open AI:**
   - Dashboard
   - Chatbot
