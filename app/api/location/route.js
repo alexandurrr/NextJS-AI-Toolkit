@@ -12,7 +12,7 @@ export async function POST(req) {
     {
       role: "system",
       content:
-        "You are a helpful assistant that provides location information. Always respond with a JSON object containing 'name', 'latitude', 'longitude', and 'imageUrl'. For the imageUrl, provide a link to a relevant image from Wikipedia or another reliable source.",
+        "You are a helpful assistant that provides location information. Always respond with a JSON object containing 'name', 'latitude', 'longitude', and 'imageUrl'. For the imageUrl, provide a link to a relevant image from a reliable source.",
     },
     { role: "user", content: `Provide the location information for: ${query}` },
   ];
