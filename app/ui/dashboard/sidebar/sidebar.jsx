@@ -34,7 +34,7 @@ const menuItems = [
         icon: <MdShoppingBag />,
       },
       {
-        title: "Soon...",
+        title: "Soon..1",
         path: "/dashboard/blank",
         icon: <MdAttachMoney />,
       },
@@ -44,12 +44,12 @@ const menuItems = [
     title: "Claude",
     list: [
       {
-        title: "Soon..",
+        title: "Soon..2",
         path: "/dashboard/blank",
         icon: <MdWork />,
       },
       {
-        title: "Soon..",
+        title: "Soon..3",
         path: "/dashboard/blank",
         icon: <MdAnalytics />,
       },
@@ -59,12 +59,12 @@ const menuItems = [
     title: "Gemini",
     list: [
       {
-        title: "Soon..",
+        title: "Soon..4",
         path: "/dashboard/blank",
         icon: <MdOutlineSettings />,
       },
       {
-        title: "Soon..",
+        title: "Soon..5",
         path: "/dashboard/blank",
         icon: <MdHelpCenter />,
       },
