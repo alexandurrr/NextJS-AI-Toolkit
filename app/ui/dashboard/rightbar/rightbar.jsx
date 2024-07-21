@@ -7,7 +7,13 @@ const Rightbar = () => {
     <div className={styles.container}>
       <div className={styles.item}>
         <div className={styles.bgContainer}>
-          <Image className={styles.bg} src="/astronaut.png" alt="" fill />
+          <Image
+            className={styles.bg}
+            src="/astronaut.png"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            alt="Astronaut"
+          />
         </div>
         <div className={styles.text}>
           <span className={styles.notification}>🔥 Available Now</span>
@@ -23,7 +29,13 @@ const Rightbar = () => {
       </div>
       <div className={styles.item}>
         <div className={styles.bgContainer}>
-          <Image className={styles.bg} src="/astronaut.png" alt="" fill />
+          <Image
+            className={styles.bg}
+            src="/astronaut.png"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            alt="Astronaut"
+          />
         </div>
         <div className={styles.text}>
           <span className={styles.notification}>🔥 Available Now</span>
@@ -39,7 +51,13 @@ const Rightbar = () => {
       </div>
       <div className={styles.item}>
         <div className={styles.bgContainer}>
-          <Image className={styles.bg} src="/astronaut.png" alt="" fill />
+          <Image
+            className={styles.bg}
+            src="/astronaut.png"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            alt="Astronaut"
+          />
         </div>
         <div className={styles.text}>
           <span className={styles.notification}>🔥 Available Now</span>
