@@ -7,33 +7,27 @@ export function useImageGenerator() {
     useImageGen();
 
   const generateImage = async () => {
-    if (!prompt) return;
-
     setIsLoading(true);
-
     try {
       const response = await fetch("/api/imagegen", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
       });
-
+      if (!response.ok) {
+        throw new Error("Failed to generate image");
+      }
       const data = await response.json();
 
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      setGeneratedImages([
-        { prompt, imageUrl: data.imageUrl },
-        ...generatedImages,
+      // Add both the user prompt and the AI response to the chat
+      setGeneratedImages((prevImages) => [
+        ...prevImages,
+        { type: "user", content: prompt },
+        { type: "ai", content: data.imageUrl },
       ]);
-      setPrompt("");
     } catch (error) {
       console.error("Error generating image:", error);
-      // Here you might want to set an error state or show a notification to the user
+      // Handle the error (e.g., show an error message to the user)
     } finally {
       setIsLoading(false);
     }

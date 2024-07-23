@@ -31,7 +31,7 @@
 }
 
 .messages::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
 }
 
 .messages::-webkit-scrollbar-track {
@@ -295,4 +295,10 @@
     transform: scale(0.8);
     opacity: 0.5;
   }
+}
+
+.errorMessage {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
 }

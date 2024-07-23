@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import fetch from "node-fetch";
+import { writeFile } from "fs/promises";
+import path from "path";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -16,7 +19,16 @@ export async function POST(req) {
       size: "1024x1024",
     });
 
-    return NextResponse.json({ imageUrl: response.data[0].url });
+    const imageUrl = response.data[0].url;
+    const imageRes = await fetch(imageUrl);
+    const arrayBuffer = await imageRes.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const filename = `image_${Date.now()}.png`;
+    const filepath = path.join(process.cwd(), "public", "generated", filename);
+    await writeFile(filepath, buffer);
+
+    return NextResponse.json({ imageUrl: `/generated/${filename}` });
   } catch (error) {
     console.error("OpenAI API error:", error);
     return NextResponse.json(
@@ -24,11 +36,4 @@ export async function POST(req) {
       { status: 500 }
     );
   }
-}
-
-export async function GET() {
-  return NextResponse.json(
-    { message: "This endpoint only supports POST requests" },
-    { status: 405 }
-  );
 }

@@ -28,6 +28,25 @@
   flex-direction: column;
 }
 
+.messages::-webkit-scrollbar {
+  width: 12px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: #2d3748;
+  border-radius: 4px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: #4a5568;
+  border-radius: 4px;
+  border: 2px solid #2d3748;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background-color: #718096;
+}
+
 .messageWrapper {
   display: flex;
   margin-bottom: 20px;
@@ -74,6 +93,7 @@
   overflow: hidden;
   margin-bottom: 10px;
   border-radius: 10px;
+  position: relative;
 }
 
 .messageImage {
@@ -84,7 +104,7 @@
 
 .timestamp {
   position: absolute;
-  bottom: 5px;
+  bottom: 0px;
   right: 10px;
   font-size: 10px;
   color: rgba(255, 255, 255, 0.6);
@@ -111,6 +131,10 @@
   color: #ffffff;
   font-size: 16px;
   padding: 10px;
+}
+
+.input:focus {
+  outline: none;
 }
 
 .input::placeholder {
