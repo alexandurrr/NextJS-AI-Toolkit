@@ -12,15 +12,15 @@
   
   .bgContainer {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: -30px;
+    top: 0;
     width: 50%;
     height: 50%;
   }
   
   .bg {
     object-fit: contain;
-    opacity: 0.2;
+    opacity: 0.5;
   }
   
   .text {
