@@ -3,6 +3,7 @@ import { useImageGen } from "../context/ImageGenContext";
 
 export function useImageGenerator() {
   const [prompt, setPrompt] = useState("");
+  const [model, setModel] = useState("dall-e-2"); // Default to DALL-E 2
   const { generatedImages, setGeneratedImages, isLoading, setIsLoading } =
     useImageGen();
 
@@ -12,14 +13,13 @@ export function useImageGenerator() {
       const response = await fetch("/api/imagegen", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, model }),
       });
       if (!response.ok) {
         throw new Error("Failed to generate image");
       }
       const data = await response.json();
 
-      // Add both the user prompt and the AI response to the chat
       setGeneratedImages((prevImages) => [
         ...prevImages,
         { type: "user", content: prompt },
@@ -27,11 +27,18 @@ export function useImageGenerator() {
       ]);
     } catch (error) {
       console.error("Error generating image:", error);
-      // Handle the error (e.g., show an error message to the user)
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { prompt, setPrompt, generateImage, isLoading, generatedImages };
+  return {
+    prompt,
+    setPrompt,
+    model,
+    setModel,
+    generateImage,
+    isLoading,
+    generatedImages,
+  };
 }

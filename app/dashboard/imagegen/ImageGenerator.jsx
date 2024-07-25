@@ -6,8 +6,15 @@ import styles from "./ImageGen.module.css";
 import { useImageGenerator } from "../../hooks/useImageGenerator";
 
 export default function ImageGenerator() {
-  const { prompt, setPrompt, generateImage, isLoading, generatedImages } =
-    useImageGenerator();
+  const {
+    prompt,
+    setPrompt,
+    model,
+    setModel,
+    generateImage,
+    isLoading,
+    generatedImages,
+  } = useImageGenerator();
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -97,6 +104,20 @@ export default function ImageGenerator() {
               className={styles.input}
               disabled={isLoading}
             />
+            <div className={styles.modelSelector}>
+              <span>DALL-E 2</span>
+              <label className={styles.switch}>
+                <input
+                  type="checkbox"
+                  checked={model === "dall-e-3"}
+                  onChange={(e) =>
+                    setModel(e.target.checked ? "dall-e-3" : "dall-e-2")
+                  }
+                />
+                <span className={styles.slider}></span>
+              </label>
+              <span>DALL-E 3</span>
+            </div>
             <button
               type="submit"
               disabled={isLoading || !prompt.trim()}

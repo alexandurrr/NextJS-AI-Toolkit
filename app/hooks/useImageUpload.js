@@ -2,7 +2,7 @@ export function useImageUpload(setSelectedImage) {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) {
+      if (file.size > 10 * 1024 * 1024) {
         alert("Image size should be less than 5MB");
         return;
       }
