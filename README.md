@@ -11,7 +11,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
   - Dashboard
   - Chatbot (gpt4-o)
   - Location AI (gpt4-o, leaflet)
-  - Image Generation (DALL·E 2)
+  - Image Generation (DALL·E 2 & 3)
 - **Claude:**
   - Soon...
   - Soon...
@@ -40,7 +40,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ### Location AI - Finds location based on an abstract query and shows it on the map:
 ![Location AI](screenshots/locationAI.png)
 
-### Image Generation- Generates an image using OpenAi's DALL·E 2 model.
+### Image Generation- Generates an image using OpenAi's DALL·E 2 or 3 model.
 ![Image Generation](screenshots/imagegeneration.png)
 
 ### Soon to be more..
