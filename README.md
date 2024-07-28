@@ -1,4 +1,4 @@
-# Next.JS App with with soon to be many AI Apps you can use!
+# Next.JS AI Toolkit App with with soon to be many AI Apps you can use!
 
 Welcome to my Next.JS AI project. This project makes use of the latest AI capabilities from several different AI vendors, such as Open AI, Claude (soon) and Gemini (Soon).
 
