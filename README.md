@@ -11,7 +11,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
   - Dashboard
   - Chatbot (gpt4-o)
   - Location AI (gpt4-o, leaflet)
-  - Image Generation (DALL·E 2 & 3)
+  - Image Generation (DALL·E 2 & 3) (Honestly the difference in imagination and well, general imagery is so much better in dall-e 3, try it out)
 - **Claude:**
   - Soon...
   - Soon...
