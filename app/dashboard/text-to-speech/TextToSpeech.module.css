@@ -13,7 +13,7 @@
   height: 80vh;
   display: flex;
   flex-direction: column;
-  background-color: #343a40; /* Darker grey background */
+  background-color: #343a40; 
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -50,33 +50,33 @@
 }
 
 .userMessage {
-  background-color: #fd7e14; /* Orange accent color */
+  background-color: #fd7e14; 
   color: white;
 }
 
 .botMessage {
-  background-color: #495057; /* Greyish brown color */
-  color: #f8f9fa; /* Lighter text color */
+  background-color: #495057; 
+  color: #f8f9fa; 
 }
 
 .inputForm {
   padding: 15px;
-  background-color: #343a40; /* Darker grey background */
-  border-top: 1px solid #495057; /* Greyish brown border */
+  background-color: #343a40; 
+  border-top: 1px solid #495057; 
 }
 
 .input {
   flex-grow: 1;
   padding: 10px;
-  border: 1px solid #495057; /* Greyish brown border */
+  border: 1px solid #495057; 
   border-radius: 20px;
   font-size: 16px;
-  background-color: #495057; /* Greyish brown background */
-  color: #f8f9fa; /* Lighter text color */
+  background-color: #495057; 
+  color: #f8f9fa;
 }
 
 .sendButton {
-  background-color: #fd7e14; /* Orange accent color */
+  background-color: #fd7e14; 
   color: white;
   border: none;
   border-radius: 20px;
@@ -91,12 +91,12 @@
 }
 
 .typingIndicator span {
-  background-color: #fd7e14; /* Orange accent color */
+  background-color: #fd7e14; 
 }
 
 .playButton {
   position: absolute;
-  right: -35px; /* Adjust this value to position the button */
+  right: -35px; 
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -112,21 +112,25 @@
   border-radius: 50%;
   background-color: #343a40;
   transition: background-color 0.3s ease, color 0.3s ease;
-  color: #f8f9fa; /* Lighter color for the icon */
+  color: #f8f9fa; 
 }
 
 .playButton:hover {
-  background-color: #fd7e14; /* Orange background on hover */
-  color: #fff; /* White icon on hover */
+  background-color: #fd7e14;
+  color: #fff; 
 }
 
-/* Adjust the bot message container to make room for the play button */
 .botMessage {
-  margin-right: 40px; /* Increase this value if needed */
+  margin-right: 40px;
 }
 
-.highlightedWord {
-  color: #fd7e14; /* Orange color */
+.highlighted {
+  color: #fd7e14;
+  text-shadow: 0 0 8px rgba(238, 238, 238, 0.5);
   transition: color 0.3s ease, text-shadow 0.3s ease;
-  text-shadow: 0 0 8px rgba(253, 126, 20, 0.7);
+}
+
+.playButton.playing {
+  background-color: #fd7e14;
+  color: #fff;
 }

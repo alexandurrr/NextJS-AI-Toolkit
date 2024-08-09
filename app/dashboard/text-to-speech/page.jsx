@@ -129,12 +129,20 @@ export default function TextToSpeechGenerator() {
                 }`}
               >
                 <div className={styles.messageContent}>
-                  <p>{message.content}</p>
+                  <p
+                    className={
+                      playingMessageIndex === index ? styles.highlighted : ""
+                    }
+                  >
+                    {message.content}
+                  </p>
                 </div>
                 {message.type === "bot" && message.audioUrl && (
                   <button
                     onClick={() => togglePlayPause(message.audioUrl, index)}
-                    className={styles.playButton}
+                    className={`${styles.playButton} ${
+                      playingMessageIndex === index ? styles.playing : ""
+                    }`}
                   >
                     {playingMessageIndex === index ? (
                       <IoPauseOutline />
