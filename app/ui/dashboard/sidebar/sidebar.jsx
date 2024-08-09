@@ -24,7 +24,7 @@ const menuItems = [
         icon: <MdDashboard />,
       },
       {
-        title: "Chatbot",
+        title: "Chatbot with image recognition",
         path: "/dashboard/chatbot",
         icon: <MdChatBubbleOutline />,
       },
@@ -44,8 +44,8 @@ const menuItems = [
     title: "Claude",
     list: [
       {
-        title: "Soon..2",
-        path: "/dashboard/blank",
+        title: "Text-To-Speech Chatbot",
+        path: "/dashboard/text-to-speech",
         icon: <MdWork />,
       },
       {
