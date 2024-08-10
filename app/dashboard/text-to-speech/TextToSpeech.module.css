@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 60px);
-  background-color: #6C757D;
+  background-color: #2c2b28;
   padding: 20px;
 }
 
@@ -13,7 +13,7 @@
   height: 80vh;
   display: flex;
   flex-direction: column;
-  background-color: #343a40; 
+  background-color: #333230; 
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -50,7 +50,7 @@
 }
 
 .userMessage {
-  background-color: #fd7e14; 
+  background-color: #8a4426; 
   color: white;
 }
 
@@ -61,22 +61,22 @@
 
 .inputForm {
   padding: 15px;
-  background-color: #343a40; 
-  border-top: 1px solid #495057; 
+  background-color: #333230; 
+  border-top: 1px solid #2c2b28; 
 }
 
 .input {
   flex-grow: 1;
   padding: 10px;
-  border: 1px solid #495057; 
+  border: 1px solid #2c2b28; 
   border-radius: 20px;
   font-size: 16px;
-  background-color: #495057; 
-  color: #f8f9fa;
+  background-color: #353533; 
+  color: #f5f4ef;
 }
 
 .sendButton {
-  background-color: #fd7e14; 
+  background-color: #8a4426; 
   color: white;
   border: none;
   border-radius: 20px;
@@ -91,7 +91,7 @@
 }
 
 .typingIndicator span {
-  background-color: #fd7e14; 
+  background-color: #8a4426; 
 }
 
 .playButton {
@@ -110,13 +110,13 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #343a40;
+  background-color: #333230;
   transition: background-color 0.3s ease, color 0.3s ease;
   color: #f8f9fa; 
 }
 
 .playButton:hover {
-  background-color: #fd7e14;
+  background-color: #8a4426;
   color: #fff; 
 }
 
@@ -130,7 +130,30 @@
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
+.highlightedChatMessage{
+  border: 2px solid #fd7e14;
+}
+
 .playButton.playing {
-  background-color: #fd7e14;
+  background-color: #8a4426;
   color: #fff;
+}
+
+.messages::-webkit-scrollbar {
+  width: 16px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: #2c2b28; 
+  border-radius: 4px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: #52514e; 
+  border-radius: 4px;
+  border: 3px solid #2c2b28; 
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background-color: #787672; 
 }
