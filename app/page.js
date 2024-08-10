@@ -4,7 +4,9 @@ import Dashboard from "./dashboard/page";
 const Homepage = () => {
   return (
     <div>
-      <Layout />
+      <Layout>
+        <Dashboard />
+      </Layout>
     </div>
   );
 };

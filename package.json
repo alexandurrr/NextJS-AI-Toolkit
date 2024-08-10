@@ -11,7 +11,9 @@
   "dependencies": {
     "@ai-sdk/openai": "^0.0.36",
     "@ai-sdk/react": "^0.0.20",
+    "@resemble/node": "^3.4.0",
     "ai": "^3.2.22",
+    "axios": "^1.7.3",
     "css-loader": "^7.1.2",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
@@ -22,7 +24,8 @@
     "react-icons": "4.11",
     "react-leaflet": "^4.2.1",
     "recharts": "^2.9.0",
-    "style-loader": "^4.0.0"
+    "style-loader": "^4.0.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "postcss": "^8",
