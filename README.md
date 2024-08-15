@@ -49,7 +49,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ![Image Generation](screenshots/imagegeneration.png)
 
-### Text-To-Speech Chatbot - Chatbot with an AI generated voice to read out responses. Can also read previous responses.
+### Text-To-Speech Chatbot - Chatbot with an AI generated voice to read out responses. Can also read previous responses. Voice comes from Resemble AI, cloning a video game characters voice (Tarkos).
 
 ![Text-To-Speech Chatbot](screenshots/ttschatbot.png)
 
