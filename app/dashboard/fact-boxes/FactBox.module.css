@@ -1,0 +1,69 @@
+.factBox {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #495057;
+  color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  min-width: 250px;
+  max-width: 300px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: popUp 0.3s ease-out;
+}
+
+.factBox h3 {
+  margin-top: 0;
+  color: #fd7e14;
+  font-size: 16px;
+}
+
+.factBox p {
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.arrow {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #495057;
+}
+
+@keyframes popUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.factBox p::-webkit-scrollbar {
+  width: 6px;
+}
+
+.factBox p::-webkit-scrollbar-track {
+  background: #2c2b28;
+}
+
+.factBox p::-webkit-scrollbar-thumb {
+  background-color: #52514e;
+  border-radius: 3px;
+}
+
+.factBox p::-webkit-scrollbar-thumb:hover {
+  background-color: #787672;
+}
