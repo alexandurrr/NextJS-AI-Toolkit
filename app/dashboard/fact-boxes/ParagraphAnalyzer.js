@@ -10,6 +10,7 @@ export default function ParagraphAnalyzer() {
   const [factBoxes, setFactBoxes] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const paragraphRef = useRef(null);
+  const [factBoxPosition, setFactBoxPosition] = useState({ top: 0, left: 0 });
 
   const handleParagraphSubmit = (text) => {
     setParagraph(text);
@@ -17,8 +18,15 @@ export default function ParagraphAnalyzer() {
     setFactBoxes({});
   };
 
-  const handleWordClick = (word) => {
+  const handleWordClick = (word, event) => {
     setSelectedWord((prevWord) => (prevWord === word ? null : word));
+    if (word !== selectedWord) {
+      const rect = event.target.getBoundingClientRect();
+      setFactBoxPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
+    }
   };
 
   const generateFactBox = async (word) => {
@@ -49,19 +57,16 @@ export default function ParagraphAnalyzer() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.analyzerContainer}>
-        <div className={styles.paragraphDisplay} ref={paragraphRef}>
+        <div className={styles.paragraphDisplay}>
           {paragraph.split(" ").map((word, index) => (
             <span
               key={index}
               className={`${styles.word} 
                 ${selectedWord === word ? styles.selected : ""}
                 ${factBoxes[word] ? styles.hasFactBox : ""}`}
-              onClick={() => handleWordClick(word)}
+              onClick={(e) => handleWordClick(word, e)}
             >
               {word}{" "}
-              {selectedWord === word && factBoxes[word] && (
-                <FactBox word={word} content={factBoxes[word]} />
-              )}
             </span>
           ))}
         </div>
@@ -71,6 +76,16 @@ export default function ParagraphAnalyzer() {
           placeholder="Enter your paragraph..."
         />
       </div>
+      {selectedWord && factBoxes[selectedWord] && (
+        <FactBox
+          word={selectedWord}
+          content={factBoxes[selectedWord]}
+          style={{
+            top: `${factBoxPosition.top}px`,
+            left: `${factBoxPosition.left}px`,
+          }}
+        />
+      )}
     </div>
   );
 }
