@@ -1,0 +1,66 @@
+.pageContainer {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #2c2b28;
+  overflow: hidden;
+}
+
+.analyzerContainer {
+  width: 100%;
+  max-width: 800px;
+  height: calc(100vh - 40px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #333230;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.paragraphDisplay {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  color: #f5f4ef;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.word {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.word:hover {
+  background-color: #495057;
+}
+
+.word.selected {
+  background-color: #8a4426;
+  color: white;
+}
+
+.paragraphDisplay::-webkit-scrollbar {
+  width: 16px;
+}
+
+.paragraphDisplay::-webkit-scrollbar-track {
+  background: #2c2b28;
+  border-radius: 4px;
+}
+
+.paragraphDisplay::-webkit-scrollbar-thumb {
+  background-color: #52514e;
+  border-radius: 4px;
+  border: 3px solid #2c2b28;
+}
+
+.paragraphDisplay::-webkit-scrollbar-thumb:hover {
+  background-color: #787672;
+}
